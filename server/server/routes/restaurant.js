@@ -1,0 +1,27 @@
+const express = require('express');
+const router = express.Router();
+
+const Restaurant = require('../models/Restaurant');
+const Menu = require('../models/Menu');
+
+// Get all restaurants
+router.get('/', async (req, res) => {
+  try {
+    const restaurants = await Restaurant.find();
+    res.json(restaurants);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get menu for a specific restaurant
+router.get('/:id/menu', async (req, res) => {
+  try {
+    const menu = await Menu.find({ restaurantId: req.params.id });
+    res.json(menu);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+module.exports = router;
